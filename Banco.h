@@ -27,6 +27,7 @@ public:
         mes = 6;
         anio = 2023;
     }
+    
     virtual std::string getClase();
     virtual int getCaja();
     virtual int getDia();

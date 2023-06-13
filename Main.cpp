@@ -6,7 +6,7 @@ using namespace std;
 
 void PrimerIngreso(vector<Cliente> &C)
 {
-    int n, p, q, x, y = 0;
+    int n, p, q, x, y = 0, w;
     string m;
     cout << "**No hay clientes registrados en el sistema...\n**Ingrese un cliente para continuar...\n\nCuantos clientes desea ingresar?\n\n";
     cin >> x;
@@ -27,16 +27,36 @@ void PrimerIngreso(vector<Cliente> &C)
             {
                 y++;
                 cout << "\nIngrese el ID del cliente: \n";
-                cin >> n;
+                w = 0;
+                do
+                {
+                    cin >> n;
+                    if (n <= 0)
+                    {
+                        cout << "\n**Ingrese un ID positivo\n";
+                    }
+                    else
+                        w = 1;
+                } while (w == 0);
                 C.back().setID(n);
             }
             else
             {
-                q = 1;
+                w = 1;
                 do
                 {
                     cout << "\nIngrese el ID del cliente: \n";
-                    cin >> n;
+                    q = 0;
+                    do
+                    {
+                        cin >> n;
+                        if (n <= 0)
+                        {
+                            cout << "\n**Ingrese un ID positivo\n";
+                        }
+                        else
+                            q = 1;
+                    } while (q == 0);
                     p = 1;
                     for (int i = 0; i < C.size(); i++)
                     {
@@ -49,28 +69,49 @@ void PrimerIngreso(vector<Cliente> &C)
                     }
                     if (p == 1)
                     {
-                        q = 0;
+                        w = 0;
                     }
 
-                } while (q == 1);
+                } while (w == 1);
             }
 
             cout << "\nIngrese el estado de la cuenta: \n";
             cin >> m;
             C.back().setEstado(m);
             cout << "\nIngrese la fecha en la que la cuenta fue creada: \n";
-            cout << "Dia: \n";
-            cin >> n;
-            cout << "Mes: \n";
-            cin >> p;
-            cout << "Anio: \n";
-            cin >> q;
+            w = 0;
+            do
+            {
+                cout << "Dia: \n";
+                cin >> n;
+                cout << "Mes: \n";
+                cin >> p;
+                cout << "Anio: \n";
+                cin >> q;
+                if (n <= 0 || p <= 0 || q <= 0)
+                {
+                    cout << "\n**Ingrese fechas que no sean negativas o nulas\n";
+                }
+                else
+                    w = 1;
+            } while (w == 0);
+
             C.back().setFecha(n, p, q);
             cout << "\nIngrese la clase de cuenta: \n\n**CUENTAS CON 3 O MAS ANIOS DE ANTIGUEDAD PUEDEN SER CLASE BLACK**\n**CUENTAS QUE NO CUMPLAN EL REQUERIMIENTO SERAN CONVERTIDAS CLASE GOLD**\n";
             cin >> m;
             C.back().setClase(m);
             cout << "\nIngrese la cantidad de dinero que tiene actualmente el cliente: \n";
-            cin >> n;
+            w = 0;
+            do
+            {
+                cin >> n;
+                if (n < 0)
+                {
+                    cout << "\n**Ingrese una cantidad positiva de dinero o nulo\n";
+                }
+                else
+                    w = 1;
+            } while (w == 0);
             C.back().setCaja(n);
             cout << "------------------------------------------------------------------------------------\n\n";
         }
@@ -187,58 +228,60 @@ void MenuMantenimiento(vector<Cliente> &C)
 
 bool CheqFecha(int x, int y, int z)
 {
-    int w, AnioActual, MesActual;
-    Cliente C;
+    Cliente W;
+    int _x, _y;
+    _x = W.FechaActual.getMes();
+    _y = W.FechaActual.getAnio();
     if (z == 1)
     {
-        if (y == AnioActual)
+        if (_x < 6)
         {
-            if (x > MesActual - 6)
+            _x = 6 + _x;
+            _y--;
+            if (_y < y)
+            {
+                return true;
+            }
+        }
+        else
+            _x = _x - 6;
+
+        if (_y == y)
+        {
+            if (x > _x)
             {
                 return true;
             }
             else
-            {
                 return false;
-            }
         }
-        else if (y == (AnioActual - 1))
+        else if (_y - 1 > y)
         {
-            if (MesActual - 6 <= 0)
-            {
-                w = 12 + (MesActual - 6);
-                if (x > w)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            else
-            {
-                return true;
-            }
-        }else if (y < (AnioActual - 1))
-        {
-            return true;
+            return false;
         }
-        
     }
     else if (z == 2)
     {
-        if ((y == AnioActual-1 && x >= MesActual) ))
+        if (_y == y)
         {
             return true;
         }
-        else
+        else if (_y - 1 == y)
+        {
+            if (_x <= x)
+            {
+                return true;
+            }
+            else
+                return false;
+        }
+        else if (_y - 1 > y)
         {
             return false;
-        } 
+        }
     }
-
-} // NO Funciona, me falla la logica
+    return false;
+}
 
 void MenuTransacciones(vector<Cliente> &C, int &nro)
 {
