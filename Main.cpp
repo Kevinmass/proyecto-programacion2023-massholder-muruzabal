@@ -73,6 +73,7 @@ void PrimerIngreso(vector<Cliente> &C)
                     }
 
                 } while (w == 1);
+                C.back().setID(n);
             }
 
             cout << "\nIngrese el estado de la cuenta: \n";
@@ -120,8 +121,7 @@ void PrimerIngreso(vector<Cliente> &C)
     {
         cout << "Memoria Insuficiente\n";
     }
-
-} // Funciona Masomenos
+} // funciona
 
 void Estado(vector<Cliente> &C)
 {
@@ -285,7 +285,7 @@ bool CheqFecha(int x, int y, int z)
 
 void MenuTransacciones(vector<Cliente> &C, int &nro)
 {
-    int n, p, q, x, w;
+    int n, p, q, x, w, w1;
     string m;
     bool llave = false;
     cout << "\n\n--MENU TRANSACCIONES--\n";
@@ -308,6 +308,8 @@ void MenuTransacciones(vector<Cliente> &C, int &nro)
                     try
                     {
                         y->transaccion.push_back(Transacciones());
+                        m = 'D';
+                        y->transaccion.back().setClase(m);
                         w = 1;
                         y->transaccion.back() + (n);
                         nro++;
@@ -317,16 +319,23 @@ void MenuTransacciones(vector<Cliente> &C, int &nro)
                         cin >> n;
                         y->transaccion.back() + (n);
                         y->setCaja(y->getCaja() + n);
-                        cout << "Ingrese el tipo de transaccion: \n";
-                        cin >> m;
-                        y->transaccion.back().setClase(m);
                         cout << "Ingrese la fecha de deposito: \n";
-                        cout << "Dia: \n";
-                        cin >> n;
-                        cout << "Mes: \n";
-                        cin >> p;
-                        cout << "Anio: \n";
-                        cin >> q;
+                        w1 = 0;
+                        do
+                        {
+                            cout << "Dia: \n";
+                            cin >> n;
+                            cout << "Mes: \n";
+                            cin >> p;
+                            cout << "Anio: \n";
+                            cin >> q;
+                            if (n <= 0 || p <= 0 || q <= 0)
+                            {
+                                cout << "\n**Ingrese fechas que no sean negativas o nulas\n";
+                            }
+                            else
+                                w1 = 1;
+                        } while (w1 == 0);
                         y->transaccion.back().setFecha(n, p, q);
                     }
                     catch (std::bad_alloc &)
@@ -354,6 +363,8 @@ void MenuTransacciones(vector<Cliente> &C, int &nro)
                     try
                     {
                         y->transaccion.push_back(Transacciones());
+                        m = 'E';
+                        y->transaccion.back().setClase(m);
                         w = 1;
                         y->transaccion.back() + (n);
                         nro++;
@@ -362,8 +373,19 @@ void MenuTransacciones(vector<Cliente> &C, int &nro)
                         q = 0;
                         do
                         {
-                            cout << "Ingrese la cantidad a retirar: \n";
-                            cin >> n;
+                            w1 = 0;
+                            do
+                            {
+                                cout << "Ingrese la cantidad a retirar: \n";
+                                cin >> n;
+                                if (n <= 0)
+                                {
+                                    cout << "\n**Ingrese una cantidad positiva\n";
+                                }
+                                else
+                                    w1 = 1;
+                            } while (w1 == 0);
+
                             if (y->getCaja() < n)
                             {
                                 cout << "**No se puede retirar, el cliente no tiene dinero suficiente en su cuenta...\n**Ingrese un aporte menor o ingrese 0 para salir...\n\n";
@@ -381,16 +403,23 @@ void MenuTransacciones(vector<Cliente> &C, int &nro)
                         } while (q == 0);
                         if (n != 0)
                         {
-                            cout << "Ingrese el tipo de transaccion: \n";
-                            cin >> m;
-                            y->transaccion.back().setClase(m);
                             cout << "Ingrese la fecha del retiro: \n";
-                            cout << "Dia: \n";
-                            cin >> n;
-                            cout << "Mes: \n";
-                            cin >> p;
-                            cout << "Anio: \n";
-                            cin >> q;
+                            w1 = 0;
+                            do
+                            {
+                                cout << "Dia: \n";
+                                cin >> n;
+                                cout << "Mes: \n";
+                                cin >> p;
+                                cout << "Anio: \n";
+                                cin >> q;
+                                if (n <= 0 || p <= 0 || q <= 0)
+                                {
+                                    cout << "\n**Ingrese fechas que no sean negativas o nulas\n";
+                                }
+                                else
+                                    w1 = 1;
+                            } while (w1 == 0);
                             y->transaccion.back().setFecha(n, p, q);
                         }
                     }
@@ -427,7 +456,7 @@ void MenuTransacciones(vector<Cliente> &C, int &nro)
                         Cliente *y = &C[i];
                         for (int j = 0; j < size(y->transaccion); j++)
                         {
-                            if (CheqFecha(y->transaccion[j].getMes(), y->transaccion[i].getAnio(), 1) == true)
+                            if (CheqFecha(y->transaccion[j].getMes(), y->transaccion[j].getAnio(), 1) == true)
                             {
                                 cout << "\nTransaccion nro: " << y->transaccion[j].getNumeroTransaccion();
                                 cout << "     Cantidad: " << y->transaccion[j].getCaja();
@@ -439,7 +468,7 @@ void MenuTransacciones(vector<Cliente> &C, int &nro)
                                 cout << "------------------------------------------------------------------------------------------\n\n";
                             }
                         }
-                    } // Me falla la logica
+                    } //Funciona
 
                     break;
                 case 2:
@@ -448,7 +477,7 @@ void MenuTransacciones(vector<Cliente> &C, int &nro)
                         Cliente *y = &C[i];
                         for (int j = 0; j < size(y->transaccion); j++)
                         {
-                            if (CheqFecha(y->transaccion[j].getMes(), y->transaccion[i].getAnio(), 2) == true)
+                            if (CheqFecha(y->transaccion[j].getMes(), y->transaccion[j].getAnio(), 2) == true)
                             {
                                 cout << "\nTransaccion nro: " << y->transaccion[j].getNumeroTransaccion();
                                 cout << "     Cantidad: " << y->transaccion[j].getCaja();
@@ -460,7 +489,7 @@ void MenuTransacciones(vector<Cliente> &C, int &nro)
                                 cout << "------------------------------------------------------------------------------------------\n\n";
                             }
                         }
-                    } // Me falla la logica
+                    } //Funciona
                     break;
                 case 3:
                     for (int i = 0; i < size(C); i++)
@@ -477,7 +506,7 @@ void MenuTransacciones(vector<Cliente> &C, int &nro)
                             cout << "      Cliente: " << y->getNombre() << " " << y->getApellido() << "\n";
                             cout << "------------------------------------------------------------------------------------------\n\n";
                         }
-                    } // Probablemente funciona
+                    } //Funciona
 
                     break;
 
@@ -499,7 +528,7 @@ void MenuTransacciones(vector<Cliente> &C, int &nro)
             break;
         }
     } while (llave == false);
-} // Funciona parcialmente
+} // Funciona
 
 void MenuConsultas(vector<Cliente> &C, int &nro)
 {
@@ -526,7 +555,7 @@ void MenuConsultas(vector<Cliente> &C, int &nro)
                 {
                     w = 1;
                     cout << "\n\nCliente encontrado...\n\n";
-                    cout << "Nombre: " << y->getNombre() << " \n Apellido:" << y->getApellido() << "\n";
+                    cout << "Nombre: " << y->getNombre() << " \nApellido:" << y->getApellido() << "\n";
                     cout << "Estado de cuenta: " << y->getEstado() << "\n";
                     cout << "Clase: " << y->getClase() << "\n";
                     cout << "Saldo actual: $" << y->getCaja() << "\n";
@@ -601,6 +630,7 @@ void MenuConsultas(vector<Cliente> &C, int &nro)
 
     } while (llave == false);
 } // Funciona
+
 int main()
 {
     int n, p, q, x, nro = 0;
