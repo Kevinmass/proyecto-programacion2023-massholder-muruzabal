@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include "Cliente.h"
+#include <fstream>
 using namespace std;
 
 void PrimerIngreso(vector<Cliente> &C)
@@ -125,7 +126,7 @@ void PrimerIngreso(vector<Cliente> &C)
 
 void Estado(vector<Cliente> &C)
 {
-    for (int i = 0; i < size(C); i++)
+    for (int i = 0; i < C.size(); i++)
     {
         Cliente *x = &C[i];
         cout << "\n\nCliente ID: " << x->getID() << "\n";
@@ -153,7 +154,7 @@ void MenuMantenimiento(vector<Cliente> &C)
             cout << "\n\nIngrese el ID del cliente que desea modificar: \n\n";
             cin >> n;
             q = 0;
-            for (int i = 0; i < size(C); i++)
+            for (int i = 0; i < C.size(); i++)
             {
                 Cliente *y = &C[i];
                 if (y->getID() == n)
@@ -166,6 +167,8 @@ void MenuMantenimiento(vector<Cliente> &C)
                     cout << "Ingrese el nuevo apellido: ";
                     cin >> m;
                     y->setApellido(m);
+
+                    remove("clientes.txt");
                 }
             }
             break;
@@ -177,7 +180,7 @@ void MenuMantenimiento(vector<Cliente> &C)
             cout << "\n\nIngrese el ID del cliente que desea modificar: \n\n";
             cin >> n;
             q = 0;
-            for (int i = 0; i < size(C); i++)
+            for (int i = 0; i < C.size(); i++)
             {
                 Cliente *y = &C[i];
                 if (y->getID() == n)
@@ -187,6 +190,8 @@ void MenuMantenimiento(vector<Cliente> &C)
                     cout << "Ingrese el nuevo estado: ";
                     cin >> m;
                     y->setEstado(m);
+
+                    remove("clientes.txt");
                 }
             }
             break;
@@ -198,7 +203,7 @@ void MenuMantenimiento(vector<Cliente> &C)
             cout << "\n\nIngrese el ID del cliente que desea modificar: \n";
             cin >> n;
             q = 0;
-            for (int i = 0; i < size(C); i++)
+            for (int i = 0; i < C.size(); i++)
             {
                 Cliente *y = &C[i];
                 if (y->getID() == n)
@@ -207,6 +212,8 @@ void MenuMantenimiento(vector<Cliente> &C)
                     cout << "Ingrese la nueva clase: \n";
                     cin >> m;
                     y->setClase(m);
+
+                    remove("clientes.txt");
                 }
             }
             break;
@@ -299,7 +306,7 @@ void MenuTransacciones(vector<Cliente> &C, int &nro)
             cout << "\n\nIngrese el ID del cliente al que desea depositarle: \n";
             cin >> n;
             w = 0;
-            for (int i = 0; i < size(C); i++)
+            for (int i = 0; i < C.size(); i++)
             {
                 Cliente *y = &C[i];
                 if (y->getID() == n)
@@ -354,7 +361,7 @@ void MenuTransacciones(vector<Cliente> &C, int &nro)
             cout << "\n\nIngrese el ID del cliente al que desea retirarle: \n";
             cin >> n;
             w = 0;
-            for (int i = 0; i < size(C); i++)
+            for (int i = 0; i < C.size(); i++)
             {
                 Cliente *y = &C[i];
                 if (y->getID() == n)
@@ -436,10 +443,10 @@ void MenuTransacciones(vector<Cliente> &C, int &nro)
             }
         case 3:
             w = 0;
-            for (int i = 0; i < size(C); i++)
+            for (int i = 0; i < C.size(); i++)
             {
                 Cliente *y = &C[i];
-                if (size(y->transaccion) != 0)
+                if (y->transaccion.size() != 0)
                 {
                     w = 1;
                 }
@@ -451,10 +458,10 @@ void MenuTransacciones(vector<Cliente> &C, int &nro)
                 switch (x)
                 {
                 case 1:
-                    for (int i = 0; i < size(C); i++)
+                    for (int i = 0; i < C.size(); i++)
                     {
                         Cliente *y = &C[i];
-                        for (int j = 0; j < size(y->transaccion); j++)
+                        for (int j = 0; j < y->transaccion.size(); j++)
                         {
                             if (CheqFecha(y->transaccion[j].getMes(), y->transaccion[j].getAnio(), 1) == true)
                             {
@@ -468,14 +475,14 @@ void MenuTransacciones(vector<Cliente> &C, int &nro)
                                 cout << "------------------------------------------------------------------------------------------\n\n";
                             }
                         }
-                    } //Funciona
+                    } // Funciona
 
                     break;
                 case 2:
-                    for (int i = 0; i < size(C); i++)
+                    for (int i = 0; i < C.size(); i++)
                     {
                         Cliente *y = &C[i];
-                        for (int j = 0; j < size(y->transaccion); j++)
+                        for (int j = 0; j < y->transaccion.size(); j++)
                         {
                             if (CheqFecha(y->transaccion[j].getMes(), y->transaccion[j].getAnio(), 2) == true)
                             {
@@ -489,13 +496,13 @@ void MenuTransacciones(vector<Cliente> &C, int &nro)
                                 cout << "------------------------------------------------------------------------------------------\n\n";
                             }
                         }
-                    } //Funciona
+                    } // Funciona
                     break;
                 case 3:
-                    for (int i = 0; i < size(C); i++)
+                    for (int i = 0; i < C.size(); i++)
                     {
                         Cliente *y = &C[i];
-                        for (int j = 0; j < size(y->transaccion); j++)
+                        for (int j = 0; j < y->transaccion.size(); j++)
                         {
                             cout << "\nTransaccion nro: " << y->transaccion[j].getNumeroTransaccion();
                             cout << "     Cantidad: " << y->transaccion[j].getCaja();
@@ -506,7 +513,7 @@ void MenuTransacciones(vector<Cliente> &C, int &nro)
                             cout << "      Cliente: " << y->getNombre() << " " << y->getApellido() << "\n";
                             cout << "------------------------------------------------------------------------------------------\n\n";
                         }
-                    } //Funciona
+                    } // Funciona
 
                     break;
 
@@ -533,7 +540,8 @@ void MenuTransacciones(vector<Cliente> &C, int &nro)
 void MenuConsultas(vector<Cliente> &C, int &nro)
 {
     int n, p, q, x, w;
-    string m;
+    ofstream clientes;
+    ofstream transacciones;
     bool llave = false;
 
     cout << "\n\n--CONSULTAS VARIAS--\n";
@@ -547,7 +555,7 @@ void MenuConsultas(vector<Cliente> &C, int &nro)
             cout << "Ingrese el ID del cliente al que busca: \n";
             cin >> n;
             w = 0;
-            p = size(C);
+            p = C.size();
             for (int i = 0; i < p; i++)
             {
                 Cliente *y = &C[i];
@@ -569,12 +577,24 @@ void MenuConsultas(vector<Cliente> &C, int &nro)
 
             break;
         case 2:
-            p = size(C);
+            remove("clientes.txt");
+            p = C.size();
             for (int i = 0; i < p; i++)
             {
+
+                clientes.open("clientes.txt", ios::app);
                 Cliente *y = &C[i];
+                clientes << "\nID: " << y->getID() << "\n";
+                clientes << "Nombre: " << y->getNombre() << " Apellido: " << y->getApellido() << "\n";
+                clientes << "Estado de cuenta: " << y->getEstado() << "\n";
+                clientes << "Clase: " << y->getClase() << "\n";
+                clientes << "Saldo actual: $" << y->getCaja() << "\n";
+                clientes << "Fecha de creacion de la cuenta: " << y->getDia() << "/" << y->getMes() << "/" << y->getAnio() << "\n";
+                clientes << "------------------------------------------------------------------------------------------\n\n";
+                clientes.close();
+
                 cout << "\nID: " << y->getID() << "\n";
-                cout << "Nombre: " << y->getNombre() << " \n Apellido:" << y->getApellido() << "\n";
+                cout << "Nombre: " << y->getNombre() << " Apellido: " << y->getApellido() << "\n";
                 cout << "Estado de cuenta: " << y->getEstado() << "\n";
                 cout << "Clase: " << y->getClase() << "\n";
                 cout << "Saldo actual: $" << y->getCaja() << "\n";
@@ -585,11 +605,11 @@ void MenuConsultas(vector<Cliente> &C, int &nro)
             break;
         case 3:
             w = 0;
-            p = size(C);
+            p = C.size();
             for (int i = 0; i < p; i++)
             {
                 Cliente *y = &C[i];
-                if (size(y->transaccion) != 0)
+                if (y->transaccion.size() != 0)
                 {
                     w = 1;
                 }
@@ -600,9 +620,21 @@ void MenuConsultas(vector<Cliente> &C, int &nro)
                 {
 
                     Cliente *y = &C[i];
-                    q = size(y->transaccion);
+                    q = y->transaccion.size();
+                    remove("transacciones.txt");
                     for (int j = 0; j < q; j++)
                     {
+                        
+                        transacciones.open("transacciones.txt", ios::app);
+                        transacciones << "Transaccion nro: " << y->transaccion[j].getNumeroTransaccion();
+                        transacciones << "     Cantidad: " << y->transaccion[j].getCaja();
+                        transacciones << "     Tipo: " << y->transaccion[j].getClase();
+                        transacciones << "     Dia: " << y->transaccion[j].getDia();
+                        transacciones << "     Mes: " << y->transaccion[j].getMes();
+                        transacciones << "     Anio: " << y->transaccion[j].getAnio() << "\n";
+                        transacciones << "     Cliente: " << y->getNombre() << " " << y->getApellido() << "\n";
+                        transacciones << "------------------------------------------------------------------------------------------\n\n";
+
                         cout << "Transaccion nro: " << y->transaccion[j].getNumeroTransaccion();
                         cout << "     Cantidad: " << y->transaccion[j].getCaja();
                         cout << "     Tipo: " << y->transaccion[j].getClase();
@@ -642,7 +674,7 @@ int main()
     cout << "----BIENVENIDO AL SISTEMA BANCARIO DE UCC----\n\n";
     do
     {
-        if (size(C) == 0)
+        if (C.size() == 0)
         {
             PrimerIngreso(C);
         }
