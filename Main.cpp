@@ -323,7 +323,17 @@ void MenuTransacciones(vector<Cliente> &C, int &nro)
                         y->transaccion.back().setNumeroTransaccion(nro);
                         cout << "\nTransaccion nro: " << nro << "\n";
                         cout << "Ingrese la cantidad a depositar: \n";
-                        cin >> n;
+                        w1 = 0;
+                        do
+                        {
+                            cin >> n;
+                            if (n <= 0)
+                            {
+                                cout << "\n***Ingrese una cantidad positiva, no nula\n";
+                            }
+                            else
+                                w1 = 1;
+                        } while (w1 == 0);
                         y->transaccion.back() + (n);
                         y->setCaja(y->getCaja() + n);
                         cout << "Ingrese la fecha de deposito: \n";
@@ -387,7 +397,7 @@ void MenuTransacciones(vector<Cliente> &C, int &nro)
                                 cin >> n;
                                 if (n <= 0)
                                 {
-                                    cout << "\n**Ingrese una cantidad positiva\n";
+                                    cout << "\n***Ingrese una cantidad positiva, no nula\n";
                                 }
                                 else
                                     w1 = 1;
@@ -624,7 +634,7 @@ void MenuConsultas(vector<Cliente> &C, int &nro)
                     remove("transacciones.txt");
                     for (int j = 0; j < q; j++)
                     {
-                        
+
                         transacciones.open("transacciones.txt", ios::app);
                         transacciones << "Transaccion nro: " << y->transaccion[j].getNumeroTransaccion();
                         transacciones << "     Cantidad: " << y->transaccion[j].getCaja();
